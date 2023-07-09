@@ -9,14 +9,25 @@ import searchStore from "./store/store";
 
 const DELAY = 500;
 const LIMIT = 20;
-const API = `/api/w/api.php?format=json&action=query&list=search&srlimit=${LIMIT}&srsearch=`;
+const ENDPOINT = `https://en.wikipedia.org/w/api.php?`;
+const params = {
+    'origin': '*',
+    'format': 'json',
+    'action': 'query',
+    'list': 'search',
+    'srlimit': LIMIT
+};
 
 function App() {
     const search = () => {
-        const url = searchStore.continue === undefined ? `${API}${searchStore.value}` : `${API}${searchStore.value}&continue=${searchStore.continue.continue}&sroffset=${searchStore.continue.sroffset}`;
+        if (searchStore.continue !== undefined) {
+            params.continue = searchStore.continue.continue;
+            params.sroffset = searchStore.continue.sroffset;
+        }
 
         if (searchStore.value !== "") {
-            axios.get(url).then((response) => {
+            params.srsearch = searchStore.value;
+            axios.get(ENDPOINT, {params}).then((response) => {
                 searchStore.setContinue(response.data.continue);
                 searchStore.setIsNone(response.data.continue === undefined);
                 const query = response.data.query;
