@@ -2,5 +2,9 @@
 /task-2/node_modules/
 /task-3/node_modules/
 /task-4/node_modules/
+/task-4/build/
+/task-3/build/
+/task-2/build/
+/task-1/build/
 /.idea/*
 /.idea
