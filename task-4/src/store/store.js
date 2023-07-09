@@ -24,7 +24,7 @@ class Store {
     constructor() {
         makeAutoObservable(this);
         this[_loadFromLocalStorage]();
-        console.log(this)
+        this.articles.map(article => article.createDate = new Date(article.createDate));
     }
 
     [_findIndexArticleById](idArticle) {
